@@ -1,6 +1,4 @@
-using CursoAtos.Domain.Repositories;
-using CursoAtos.Domain.Services;
-using CursoAtos.Repository.Repositories;
+using CursoAtos.Api.Config;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -10,14 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+
 //DI - Injecao de Dependencias
-
-//AddTransient -> Cria uma instancia da classe para cada chamada
-//AddScoped    -> Cria uma instancia da classe para cada requisicao completa
-//AddSingleton -> Cria uma unica instancia da classe durante toda a execucao da API, para todas as chamadas/usuarios
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-builder.Services.AddScoped<LoginService, LoginService>();
-
+builder.Services.AddInjecaoDependencias(builder.Configuration);
 //DI - Injecao de Dependencias
 
 
