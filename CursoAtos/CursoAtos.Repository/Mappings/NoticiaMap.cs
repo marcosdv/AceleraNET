@@ -1,9 +1,11 @@
 ﻿using CursoAtos.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CursoAtos.Repository.Mappings;
 
+[ExcludeFromCodeCoverage]
 public class NoticiaMap : IEntityTypeConfiguration<Noticia>
 {
     public void Configure(EntityTypeBuilder<Noticia> builder)

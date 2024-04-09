@@ -1,9 +1,11 @@
 ﻿using CursoAtos.Domain.Entities;
 using CursoAtos.Repository.Mappings;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CursoAtos.Repository.Contexts;
 
+[ExcludeFromCodeCoverage]
 public class DataContext : DbContext
 {
     public DataContext() { }

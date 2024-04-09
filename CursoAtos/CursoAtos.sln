@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CursoAtos.Domain", "CursoAt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CursoAtos.Repository", "CursoAtos.Repository\CursoAtos.Repository.csproj", "{EC2D8C8E-6306-4EE3-888C-293CE4BA8176}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CursoAtos.Tests", "CursoAtos.Tests\CursoAtos.Tests.csproj", "{06CBAB41-391E-45D0-85F9-E410EAAC0D8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CursoAtos.Tests", "CursoAtos.Tests\CursoAtos.Tests.csproj", "{06CBAB41-391E-45D0-85F9-E410EAAC0D8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CursoAtos.TesteIntegracao", "CursoAtos.TesteIntegracao\CursoAtos.TesteIntegracao.csproj", "{FB6FD689-FE85-41CC-B85B-2CECE3ECAAC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{06CBAB41-391E-45D0-85F9-E410EAAC0D8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06CBAB41-391E-45D0-85F9-E410EAAC0D8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06CBAB41-391E-45D0-85F9-E410EAAC0D8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB6FD689-FE85-41CC-B85B-2CECE3ECAAC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB6FD689-FE85-41CC-B85B-2CECE3ECAAC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB6FD689-FE85-41CC-B85B-2CECE3ECAAC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB6FD689-FE85-41CC-B85B-2CECE3ECAAC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

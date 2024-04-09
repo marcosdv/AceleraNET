@@ -1,9 +1,11 @@
 ﻿using CursoAtos.Domain.Entities;
 using CursoAtos.Domain.Repositories;
 using CursoAtos.Domain.Requests;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CursoAtos.Repository.Repositories;
 
+[ExcludeFromCodeCoverage]
 public class UsuarioRepository : IUsuarioRepository
 {
     public void Inserir(Usuario usuario)

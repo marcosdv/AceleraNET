@@ -3,9 +3,11 @@ using CursoAtos.Domain.Queries;
 using CursoAtos.Domain.Repositories;
 using CursoAtos.Repository.Contexts;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CursoAtos.Repository.Repositories;
 
+[ExcludeFromCodeCoverage]
 public class NoticiaRepository : INoticiaRepository
 {
     private readonly DataContext _dataContext;
