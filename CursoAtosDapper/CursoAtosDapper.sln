@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34714.143
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CursoAtosDapper", "CursoAtosDapper\CursoAtosDapper.csproj", "{12A051DB-464F-445F-92F6-D2F09F37884C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{12A051DB-464F-445F-92F6-D2F09F37884C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12A051DB-464F-445F-92F6-D2F09F37884C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12A051DB-464F-445F-92F6-D2F09F37884C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12A051DB-464F-445F-92F6-D2F09F37884C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {458E48AC-22D3-48B4-A3DF-5EE751130A6B}
+	EndGlobalSection
+EndGlobal
