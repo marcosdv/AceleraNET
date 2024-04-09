@@ -9,7 +9,7 @@
 - [x] Aula 01 - Criando uma API Rest com Swagger e Autenticação JWT - 12/03/2024
 - [x] Aula 02 - Padrão CQRS e Injeção de Dependências - 19/03/2024
 - [x] Aula 03 - Utilizando Entity Framework  - 26/03/2024
-- [ ] Aula 04 - Criando Migrations e Testes Unitários - 02/04/2024
+- [x] Aula 04 - Criando Migrations e Testes Unitários - 02/04/2024
 - [ ] Aula 05 - Utilizando ADO.NET - 08/04/2024
 - [ ] Aula 06 - Utilizando Dapper - 09/04/2024
 
