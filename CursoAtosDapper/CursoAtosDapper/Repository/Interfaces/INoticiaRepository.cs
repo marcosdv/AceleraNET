@@ -9,6 +9,6 @@ public interface INoticiaRepository
     void Excluir(int id);
 
     Task<IEnumerable<Noticia>> Get();
-    IEnumerable<Noticia> GetUltimoMes();
-    Noticia? GetById(int id);
+    Task<IEnumerable<Noticia>> GetUltimoMes();
+    Task<Noticia?> GetById(int id);
 }
