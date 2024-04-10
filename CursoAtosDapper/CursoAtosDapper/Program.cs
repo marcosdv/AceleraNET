@@ -1,3 +1,4 @@
+using CursoAtosDapper.Mapper;
 using CursoAtosDapper.Repository;
 using CursoAtosDapper.Repository.Interfaces;
 using Microsoft.Data.SqlClient;
@@ -19,6 +20,9 @@ builder.Services.AddScoped<INoticiaRepository, NoticiaRepositoryDapper>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//Adicionando configuracao do AutoMapper
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 var app = builder.Build();
 

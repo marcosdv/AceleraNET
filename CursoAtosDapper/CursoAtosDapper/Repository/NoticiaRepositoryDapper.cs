@@ -1,4 +1,5 @@
-﻿using CursoAtosDapper.Models;
+﻿using AutoMapper;
+using CursoAtosDapper.Models;
 using CursoAtosDapper.Repository.Interfaces;
 using Dapper;
 using Microsoft.Data.SqlClient;
@@ -8,9 +9,11 @@ namespace CursoAtosDapper.Repository;
 public class NoticiaRepositoryDapper : INoticiaRepository
 {
     private readonly SqlConnection _connection;
+    private readonly IMapper _mapper;
 
-    public NoticiaRepositoryDapper(SqlConnection connection)
+    public NoticiaRepositoryDapper(SqlConnection connection, IMapper mapper)
     {
+        _mapper = mapper;
         _connection = connection;
         _connection.Open();
     }
@@ -60,30 +63,30 @@ public class NoticiaRepositoryDapper : INoticiaRepository
 
     public async Task<IEnumerable<Noticia>> Get()
     {
-        return await _connection.QueryAsync<Noticia>(
-            @"SELECT NotCodigo as Id, NotTitulo as Titulo, NotTexto as Texto, NotUltimaAtualizacao as UltimaAtualizacao
-              FROM TbNoticia");
+        var result = await _connection.QueryAsync<NoticiaDTO>("SELECT * FROM TbNoticia");
+
+        return _mapper.Map<List<Noticia>>(result);
     }
 
     public async Task<Noticia?> GetById(int id)
     {
-        var sql = @"SELECT NotCodigo as Id, NotTitulo as Titulo, NotTexto as Texto, NotUltimaAtualizacao as UltimaAtualizacao
-                    FROM TbNoticia
-                    WHERE NotCodigo = @id";
+        var sql = "SELECT * FROM TbNoticia WHERE NotCodigo = @id";
 
         var parametros = new { id };
 
-        return await _connection.QueryFirstOrDefaultAsync<Noticia>(sql, parametros);
+        var result = await _connection.QueryFirstOrDefaultAsync<NoticiaDTO>(sql, parametros);
+
+        return _mapper.Map<Noticia?>(result);
     }
 
     public async Task<IEnumerable<Noticia>> GetUltimoMes()
     {
-        var sql = @"SELECT NotCodigo as Id, NotTitulo as Titulo, NotTexto as Texto, NotUltimaAtualizacao as UltimaAtualizacao
-                    FROM TbNoticia
-                    WHERE NotUltimaAtualizacao >= @DataFiltro";
+        var sql = "SELECT * FROM TbNoticia WHERE NotUltimaAtualizacao >= @DataFiltro";
 
         var parametros = new { DataFiltro = DateTime.Now.AddMonths(-1) };
 
-        return await _connection.QueryAsync<Noticia>(sql, parametros);
+        var result = await _connection.QueryAsync<NoticiaDTO>(sql, parametros);
+
+        return _mapper.Map<List<Noticia>>(result);
     }
 }
