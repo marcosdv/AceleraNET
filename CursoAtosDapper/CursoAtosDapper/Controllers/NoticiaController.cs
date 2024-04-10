@@ -1,5 +1,5 @@
 ﻿using CursoAtosDapper.Models;
-using CursoAtosDapper.Repository;
+using CursoAtosDapper.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -9,11 +9,11 @@ namespace CursoAtosDapper.Controllers;
 [ApiController]
 public class NoticiaController : ControllerBase
 {
-    private readonly NoticiaRepositoryAdoNet _repository;
+    private readonly INoticiaRepository _repository;
 
-    public NoticiaController()
+    public NoticiaController(INoticiaRepository repository)
     {
-        _repository = new NoticiaRepositoryAdoNet();
+        _repository = repository;
     }
 
     [HttpGet]

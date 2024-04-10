@@ -7,15 +7,19 @@ namespace CursoAtosDapper.Repository;
 
 public class NoticiaRepositoryAdoNet : INoticiaRepository
 {
-    private string connectionString = "Server=MDV-NOTE;Database=AulaCurso;Trusted_Connection=True;Integrated Security=true;Encrypt=False;";
+    private readonly SqlConnection _connection;
+
+    public NoticiaRepositoryAdoNet(SqlConnection connection)
+    {
+        _connection = connection;
+    }
 
     public void Inserir(Noticia noticia)
     {
-        using var connection = new SqlConnection(connectionString);
-        connection.Open();
+        _connection.Open();
 
         using var command = new SqlCommand();
-        command.Connection = connection;
+        command.Connection = _connection;
         command.CommandType = CommandType.Text;
         command.CommandText = @"INSERT INTO TbNoticia (NotTitulo, NotTexto, NotUltimaAtualizacao) 
                                                VALUES (@NotTitulo, @NotTexto, @NotUltimaAtualizacao)";
@@ -29,11 +33,10 @@ public class NoticiaRepositoryAdoNet : INoticiaRepository
 
     public void Alterar(Noticia noticia)
     {
-        using var connection = new SqlConnection(connectionString);
-        connection.Open();
+        _connection.Open();
 
         using var command = new SqlCommand();
-        command.Connection = connection;
+        command.Connection = _connection;
         command.CommandType = CommandType.Text;
         command.CommandText = @"UPDATE TbNoticia SET
                                     NotTitulo = @NotTitulo,
@@ -51,11 +54,10 @@ public class NoticiaRepositoryAdoNet : INoticiaRepository
 
     public void Excluir(int id)
     {
-        using var connection = new SqlConnection(connectionString);
-        connection.Open();
+        _connection.Open();
 
         using var command = new SqlCommand();
-        command.Connection = connection;
+        command.Connection = _connection;
         command.CommandType = CommandType.Text;
         command.CommandText = @"DELETE FROM TbNoticia WHERE NotCodigo = @NotCodigo";
 
@@ -70,28 +72,25 @@ public class NoticiaRepositoryAdoNet : INoticiaRepository
     {
         var listaNoticia = new List<Noticia>();
 
-        using (var connection = new SqlConnection(connectionString))
+        _connection.Open();
+
+        using (var command = new SqlCommand())
         {
-            connection.Open();
+            command.Connection = _connection;
+            command.CommandType = CommandType.Text;
+            command.CommandText = "SELECT NotCodigo, NotTitulo, NotTexto, NotUltimaAtualizacao FROM TbNoticia";
 
-            using (var command = new SqlCommand())
+            var reader = await command.ExecuteReaderAsync();
+
+            while (reader.Read())
             {
-                command.Connection = connection;
-                command.CommandType = CommandType.Text;
-                command.CommandText = "SELECT NotCodigo, NotTitulo, NotTexto, NotUltimaAtualizacao FROM TbNoticia";
+                var noticia = new Noticia();
+                noticia.Id = reader.GetInt32("NotCodigo");
+                noticia.Titulo = reader.GetString("NotTitulo");
+                noticia.Texto = reader.GetString("NotTexto");
+                noticia.UltimaAtualizacao = reader.GetDateTime("NotUltimaAtualizacao");
 
-                var reader = await command.ExecuteReaderAsync();
-
-                while (reader.Read())
-                {
-                    var noticia = new Noticia();
-                    noticia.Id = reader.GetInt32("NotCodigo");
-                    noticia.Titulo = reader.GetString("NotTitulo");
-                    noticia.Texto = reader.GetString("NotTexto");
-                    noticia.UltimaAtualizacao = reader.GetDateTime("NotUltimaAtualizacao");
-
-                    listaNoticia.Add(noticia);
-                }
+                listaNoticia.Add(noticia);
             }
         }
 
@@ -100,30 +99,27 @@ public class NoticiaRepositoryAdoNet : INoticiaRepository
 
     public async Task<Noticia?> GetById(int id)
     {
-        using (var connection = new SqlConnection(connectionString))
+        _connection.Open();
+
+        using (var command = new SqlCommand())
         {
-            connection.Open();
+            command.Connection = _connection;
+            command.CommandType = CommandType.Text;
+            command.CommandText = @"
+                SELECT NotCodigo, NotTitulo, NotTexto, NotUltimaAtualizacao
+                FROM TbNoticia
+                WHERE NotCodigo = @Codigo";
+            command.Parameters.Add("@Codigo", SqlDbType.Int).Value = id;
 
-            using (var command = new SqlCommand())
+            var reader = await command.ExecuteReaderAsync();
+
+            while (reader.Read())
             {
-                command.Connection = connection;
-                command.CommandType = CommandType.Text;
-                command.CommandText = @"
-                    SELECT NotCodigo, NotTitulo, NotTexto, NotUltimaAtualizacao
-                    FROM TbNoticia
-                    WHERE NotCodigo = @Codigo";
-                command.Parameters.Add("@Codigo", SqlDbType.Int).Value = id;
-
-                var reader = await command.ExecuteReaderAsync();
-
-                while (reader.Read())
-                {
-                    return new Noticia(reader.GetInt32("NotCodigo"), reader.GetString("NotTitulo"),
-                                       reader.GetString("NotTexto"), reader.GetDateTime("NotUltimaAtualizacao"));
-                }
+                return new Noticia(reader.GetInt32("NotCodigo"), reader.GetString("NotTitulo"),
+                                    reader.GetString("NotTexto"), reader.GetDateTime("NotUltimaAtualizacao"));
             }
         }
-
+    
         return null;
     }
 
@@ -131,32 +127,29 @@ public class NoticiaRepositoryAdoNet : INoticiaRepository
     {
         var listaNoticia = new List<Noticia>();
 
-        using (var connection = new SqlConnection(connectionString))
-        {
-            connection.Open();
+        _connection.Open();
 
-            using (var command = new SqlCommand())
-            {
-                command.Connection = connection;
-                command.CommandType = CommandType.Text;
-                command.CommandText = @"
+        using (var command = new SqlCommand())
+        {
+            command.Connection = _connection;
+            command.CommandType = CommandType.Text;
+            command.CommandText = @"
                     SELECT NotCodigo, NotTitulo, NotTexto, NotUltimaAtualizacao
                     FROM TbNoticia
                     WHERE NotUltimaAtualizacao >= @DataFiltro";
-                command.Parameters.Add("@DataFiltro", SqlDbType.DateTime).Value = DateTime.Now.AddMonths(-1);
+            command.Parameters.Add("@DataFiltro", SqlDbType.DateTime).Value = DateTime.Now.AddMonths(-1);
 
-                var reader = await command.ExecuteReaderAsync();
+            var reader = await command.ExecuteReaderAsync();
 
-                while (reader.Read())
-                {
-                    var noticia = new Noticia();
-                    noticia.Id = reader.GetInt32("NotCodigo");
-                    noticia.Titulo = reader.GetString("NotTitulo");
-                    noticia.Texto = reader.GetString("NotTexto");
-                    noticia.UltimaAtualizacao = reader.GetDateTime("NotUltimaAtualizacao");
+            while (reader.Read())
+            {
+                var noticia = new Noticia();
+                noticia.Id = reader.GetInt32("NotCodigo");
+                noticia.Titulo = reader.GetString("NotTitulo");
+                noticia.Texto = reader.GetString("NotTexto");
+                noticia.UltimaAtualizacao = reader.GetDateTime("NotUltimaAtualizacao");
 
-                    listaNoticia.Add(noticia);
-                }
+                listaNoticia.Add(noticia);
             }
         }
 
